@@ -10,7 +10,7 @@ webSocketServer.on('connection', function(ws) {
 
     ws.on('message', function(message) {
     if (message == '1') {
-        ws.send("g([[`<div>`, `<div>`], [`1`, `2`, `3`, `2`, `3`, `2`, `3`]])")
+        ws.send("g([[`<div>`, `</div>`], [`1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`]])")
     }
 
 	console.log('пс ' + message)

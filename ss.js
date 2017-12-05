@@ -6,8 +6,8 @@ s.on('request', function(request, response) {
     console.log(request.method);
     console.log(request.headers);
     console.log(request.url);
-    console.log('ip: ${request.ip}');
-    response.write(fs.readFileSync("h.html", "utf8"));
+    console.log(`ip: ${request.ip}`);
+    response.write(fs.readFileSync("index.html", "utf8"))
     response.end();
 });
  

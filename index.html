@@ -1,0 +1,37 @@
+
+<html>
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+
+    <input id="button" type="button" value="Click Me"/>
+    <div id="block"></div>
+
+  </body>
+  <script>
+
+    const socket = new WebSocket("ws://localhost:9999")
+    document.querySelector('#button').onclick = () => S(`1`)
+    
+    function S(sms) {
+        socket.send(sms)
+    };
+    socket.onmessage = function(event) {
+        // console.log(event.data)
+        eval(`${event.data}`)
+    };
+    socket2.onmessage = function(event) {
+        eval(`${event.data}`)
+    };
+    function g(e) {
+        // console.log(e)
+        let a = ''
+        for (let i = 0; i < e[1].length; i++) {
+            a += e[0][0] + e[1][i] + e[0][1]
+        }
+        document.querySelector('#block').innerHTML = a
+        a = ''
+    }
+  </script>
+</html>
