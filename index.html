@@ -4,34 +4,67 @@
     <meta charset="utf-8"/>
   </head>
   <body>
-
-    <input id="button" type="button" value="Click Me"/>
-    <div id="block"></div>
-
+    <div id="l">
+        <input id="button" type="button" value="Друзi"/>
+        <input id="omitted" type="button" value="Пропущенi"/>
+        <div id="block"></div>
+    </div>
+    <div id="r">
+    </div>
   </body>
   <script>
 
     const socket = new WebSocket("ws://localhost:9999")
-    document.querySelector('#button').onclick = () => S(`1`)
+    document.querySelector('#button').onclick = () => S(JSON.stringify(['f']))
+    document.querySelector('#omitted').onclick = () => S(JSON.stringify(['o']))
     
     function S(sms) {
         socket.send(sms)
     };
     socket.onmessage = function(event) {
-        // console.log(event.data)
+        console.log(event.data)
         eval(`${event.data}`)
     };
-    socket2.onmessage = function(event) {
-        eval(`${event.data}`)
-    };
+
     function g(e) {
         // console.log(e)
         let a = ''
         for (let i = 0; i < e[1].length; i++) {
-            a += e[0][0] + e[1][i] + e[0][1]
+            a += e[0][0] + e[1][i][1] + e[0][1] + e[1][i][0] + e[0][2]
         }
         document.querySelector('#block').innerHTML = a
+        document.querySelector('#r').innerHTML = ''
         a = ''
     }
+    function in_r(e) {
+        let a = ''
+        a += `
+            <h1>${ e.innerHTML }</h1>
+            <input type='text' id='sms' placeholder='Текст сообщения'></input>
+            <button onClick='Scmc(this)' i='${ e.id }'>Вiдправити</button>
+            <div id='h${ e.id }'></div>
+        `
+        document.querySelector('#r').innerHTML = a
+        a = ''
+        // подгрузить history_cmc
+        S(JSON.stringify(['h', `${ e.id }`]))
+    }
+    function h(e) {
+        document.querySelector(`#h${e[0]}`).innerHTML = `${e[1]}`
+    }
+    function Scmc(e) {
+        S(JSON.stringify([`m`, `${e.getAttribute('i')}`, `${document.getElementById('sms').value}`]))
+        document.getElementById('sms').value = ''
+    }
   </script>
+  <style>
+  body{
+      display: flex;
+      background: rgb(22, 22, 22);
+  }
+  #l, #r{
+    background: rgba(226, 250, 226, 0.5);
+    width: 50%;
+  }
+  </style>
 </html>

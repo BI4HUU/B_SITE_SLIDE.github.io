@@ -9,11 +9,21 @@ webSocketServer.on('connection', function(ws) {
 // ws.send();
 
     ws.on('message', function(message) {
-    if (message == '1') {
-        ws.send("g([[`<div>`, `</div>`], [`1`, `2`, `3`, `4`, `5`, `6`, `7`, `8`]])")
-    }
-
-	console.log('пс ' + message)
+        message = JSON.parse(message)
+        if (message[0] == 'f') {
+            ws.send("g([[`<div onClick='in_r(this)' id='`, `'>`, `</div>`], [[`1name`, `id1`], [`2name`, `id2`], [`3name`, `id3`], [`4name`, `id4`], [`5name`, `id5`], [`6name`, `id6`]]])")
+        }
+        if (message[0] == 'o') {
+            ws.send("g([[`<div onClick='in_r(this)' id='`, `'>`, `</div>`], [[`1name`, `id1`]]])")
+        }
+        if (message[0] == 'h') {
+            ws.send(`h([['${ message[1] }'], ['hhhhhistory']])`)
+        }
+        if (message[0] == 'm') {
+            ws.send(`h([['${ message[1] }'], ['cmc_OK ${ message[1] } ${ message[2] }']])`)
+        }
+        // console.log(message[0])
+        console.log(message)
 	})
 });
 
