@@ -6,8 +6,11 @@
   <body>
     <div id="l">
         <input id="button" type="button" value="Друзi"/>
-        <input id="omitted" type="button" value="Пропущенi"/>
-        <div id="block"></div>
+        <!-- <input id="omitted" type="button" value="Пропущенi"/> -->
+        <div id="wrap">
+            <div id="omittedblock">Непрочитаних немає</div>
+            <div id="block"></div>
+        </div>
     </div>
     <div id="r">
     </div>
@@ -16,7 +19,7 @@
 
     const socket = new WebSocket("ws://localhost:9999")
     document.querySelector('#button').onclick = () => S(JSON.stringify(['f']))
-    document.querySelector('#omitted').onclick = () => S(JSON.stringify(['o']))
+    // document.querySelector('#omitted').onclick = () => S(JSON.stringify(['o']))
     
     function S(sms) {
         socket.send(sms)
@@ -50,21 +53,48 @@
         S(JSON.stringify(['h', `${ e.id }`]))
     }
     function h(e) {
-        document.querySelector(`#h${e[0]}`).innerHTML = `${e[1]}`
+        let a = ''
+        for (let i = 0; i < e[1].length; i++) {
+            // a += e[0][0] + e[1][i][1] + e[0][1] + e[1][i][0] + e[0][2]
+            a += `<div> ${ e[1][i] }</div>`
+        }
+        // document.querySelector('#block').innerHTML = a
+        document.querySelector(`#h${e[0]}`).innerHTML = a
+        // document.querySelector('#r').innerHTML = ''
+        a = ''
     }
-    function Scmc(e) {
+    function Scmc(e) {// Одправля смс
         S(JSON.stringify([`m`, `${e.getAttribute('i')}`, `${document.getElementById('sms').value}`]))
         document.getElementById('sms').value = ''
+    }
+    function o(e) {// непрочитані
+        // console.log(e)
+        let a = ''
+        // for (let i = 0; i < e[1].length; i++) {
+            // [['<div onClick="in_r(this)" id="', '">', '</div>'], ${JSON.stringify(sArrNew2)}]
+            // [`${users[0].first_name} ${users[0].last_name}`, `${arrSpliceNew[0][0].body}`, `${arrSpliceNew[0][0].user_id}`];
+            a += e[0][0] + e[1][2] + e[0][1] + e[1][0] + e[0][2]
+        // }
+        document.querySelector('#omittedblock').innerHTML = a
+        a = ''
     }
   </script>
   <style>
   body{
       display: flex;
-      background: rgb(22, 22, 22);
+      background: rgb(129, 138, 133);
+      font-size: 22px;
   }
   #l, #r{
-    background: rgba(226, 250, 226, 0.5);
+    background: rgba(3, 253, 3, 0.178);
     width: 50%;
+  }
+  #block{
+      display: flex;
+      flex-direction: column;
+  }
+  #omittedblock{
+    background: rgba(255, 4, 4, 0.212);
   }
   </style>
 </html>
